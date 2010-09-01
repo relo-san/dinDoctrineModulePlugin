@@ -1,0 +1,31 @@
+<?php $module = $this->getModuleName() ?>
+<?php $sing = $this->getSingularName() ?>
+.sf_admin_form
+    %form{ :action => Url::urlf( $form, '@<?php echo $this->params['route_prefix'] ?>' ), :method => 'post', :id => '<?php echo $module ?>ActionForm' }
+        - if ( !$form->isNew() )
+            %input{ :type => 'hidden', :name => 'sf_method', :value => 'put' }
+        %div{ :class => 'sf_admin_actions_block ui-widget' }
+            = Partial::get( '<?php echo $module ?>/form_actions', array( '<?php echo $sing ?>' => $<?php echo $sing ?>, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper ) )
+        = $form->renderHiddenFields( false )
+        - if ( $form->hasGlobalErrors() )
+            = $form->renderGlobalErrors()
+        - $fieldsets = $configuration->getFormFields( $form, $form->isNew() ? 'new' : 'edit' )
+
+        #sf_admin_form_tab_menu
+            - if ( count( $fieldsets ) > 1 )
+                %ul
+                    - foreach ( $fieldsets as $fieldset => $fields )
+                        %li
+                            %a{ :href => '#sf_fieldset_' . preg_replace( '/[^a-z0-9_]/', '_', strtolower( $fieldset ) ), :onclick => 'blur()' }
+                                = I18n::__( '<?php echo $this->getI18nCatalogue() ?>.' . $fieldset )
+
+            - foreach ( $fieldsets as $fieldset => $fields )
+                = Partial::get( '<?php echo $module ?>/form_fieldset', array('<?php echo $sing ?>' => $<?php echo $sing ?>, 'form' => $form, 'fields' => $fields, 'fieldset' => $fieldset, 'isOne' => ( count( $fieldsets ) < 2 ) ? true : false ) )
+
+        %div{ :class => 'sf_admin_actions_block ui-widget' }
+            = Partial::get( '<?php echo $module ?>/form_actions', array('<?php echo $sing ?>' => $<?php echo $sing ?>, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper ) )
+
+:javascript
+    if(typeof jQuery!='undefined'){$(document).ready(function(){formAjax('actionPartial','<?php echo $module ?>ActionForm')});$(function(){$('#sf_admin_form_tab_menu').tabs({});});}
+
+-#EOF

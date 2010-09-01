@@ -1,0 +1,108 @@
+%div{ :class => 'sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix' }
+    %table{ <?php if ( $this->configuration->hasNSTree() ): ?>:id => 'tree_list', <?php endif ?>:class => 'ui-widget ui-widget-content list-table', :cellpadding => '0', :cellspacing => '0', :border => '0' }
+        %caption{ :class => 'ui-widget-header ui-corner-top' }
+<?php if ( $this->configuration->hasFilterForm() ): ?>
+            #sf_admin_filters_buttons.ui-state-default
+                = $helper->linkToFilters( array() )
+                = $helper->linkToClearFilters( array( 'hasFilters' => $hasFilters ) )
+<?php endif; ?>
+            %hi
+                = <?php echo $this->getI18NString( 'list.title' ) ?>
+
+        %thead.ui-widget-header
+            %tr
+<?php if ( $this->configuration->getValue( 'list.batch_actions' ) ): ?>
+                %th.ui-th-column{ :id => 'sf_admin_list_batch_actions' }
+                    %input.ui-widget-content{ :type => 'checkbox', :id => 'sf_admin_list_batch_checkbox', :onclick => 'checkAll()' }
+<?php endif ?>
+                = Partial::get( '<?php echo $this->getModuleName() ?>/list_th_<?php echo $this->configuration->getValue( 'list.layout' ) ?>', array( 'sort' => $sort ) )
+<?php if ( $this->configuration->getValue( 'list.object_actions' ) ): ?>
+                %th.ui-th-column{ :id => 'sf_admin_list_th_actions' }
+                    = I18n::__( 'admin.labels.actions' )
+<?php endif ?>
+        %tfoot
+            %tr
+                %th{ :style => 'margin:0;padding:0;border:0;', :colspan => '<?php echo count( $this->configuration->getValue( 'list.display' ) ) + ( $this->configuration->getValue( 'list.object_actions' ) ? 1 : 0 ) + ( $this->configuration->getValue( 'list.batch_actions' ) ? 1 : 0 ) ?>' }
+                    %div{ :class => 'ui-widget-header ui-corner-bottom' }
+                        %div{ :class => 'ui-th-column sf-list-foot' }
+                            - if ( $pager->haveToPaginate() )
+                                = Partial::get( '<?php echo $this->getModuleName() ?>/pagination', array( 'pager' => $pager ) )
+
+        %tbody
+            - if ( !$pager->getNbResults() )
+                %tr{ :class => 'sf_admin_row ui-widget-content' }
+                    %td{ :colspan => '20', :height => '30', :align => 'center' }
+                        %p{ :style => 'text-align:center' }
+                            = I18n::__( 'admin.labels.noResult' )
+            - else
+                - foreach ( $pager->getResults() as $i => $<?php echo $this->getSingularName() ?> )
+                    - $odd = fmod( ++$i, 2 ) ? ' odd' : ' even'
+<?php if ( $this->configuration->hasNSTree() ): ?>
+                    - $node = $<?php echo $this->getSingularName() ?>->getNode()
+                    %tr{ :id => 'node-' . $<?php echo $this->getSingularName() ?>->getId(), :class => 'sf_admin_row ui-widget-content' . $odd . ( $node->isValidNode() && $node->hasParent() ? ' child-of-node-' . $node->getParent()->getId() : '' ) }
+<?php else: ?>
+                    %tr{ :class => 'sf_admin_row ui-widget-content' . $odd }
+<?php endif ?>
+<?php if ( $this->configuration->getValue( 'list.batch_actions' ) ): ?>
+                        %td
+                            %input.sf_admin_batch_checkbox{ :type => 'checkbox', :name => 'ids[]', :value => $<?php echo $this->getSingularName() ?>->getPrimaryKey() }
+<?php endif ?>
+
+<?php if ( $this->configuration->getValue( 'list.layout' ) == 'tabular' ): ?>
+<?php $itr = 0 ?>
+<?php foreach ( $this->configuration->getValue( 'list.display' ) as $name => $field ): ?>
+<?php if ( !$itr && $this->configuration->hasNSTree() ): ?>
+<?php echo $this->addCredentialCondition( sprintf( <<<EOF
+                        %%td{ :class => 'sf_admin_%s sf_admin_list_td_%s tree-node' }
+                            %%input{ :type => 'hidden', :id => 'select_node-' . $%s->getPrimaryKey(), :name => 'newparent' . $%s->getPrimaryKey() }
+                            - if( $%s->getNode()->isLeaf() )
+                                %%span{ :class => 'ui-icon ui-icon-folder-open empty-folder' }
+                            = %s
+EOF
+, strtolower( $field->getType() ), $name, $this->getSingularName(), $this->getSingularName(), $this->getSingularName(), $this->renderField( $field ) ), $field->getConfig() ) . "\n" ?>
+<?php else: ?>
+<?php echo $this->addCredentialCondition( sprintf( <<<EOF
+                        %%td{ :class => 'sf_admin_%s sf_admin_list_td_%s' }
+                            = %s
+EOF
+, strtolower( $field->getType() ), $name, $this->renderField( $field ) ), $field->getConfig() ) . "\n" ?>
+<?php endif ?>
+<?php $itr++ ?>
+<?php endforeach ?>
+<?php else: ?>
+                        %td{ :colspan => '<?php echo count( $this->configuration->getValue( 'list.display' ) ) ?>' }
+                            = <?php echo $this->getI18NString( 'list.params' ) ?>
+<?php endif ?>
+
+<?php if ( $this->configuration->getValue( 'list.object_actions' ) ): ?>
+                        %td{ :style => 'padding-right:5px' }
+                            %ul.sf_admin_td_actions
+
+<?php foreach ( $this->configuration->getValue( 'list.object_actions' ) as $name => $params ): ?>
+<?php if ( '_delete' == $name ): ?>
+                                <?php echo $this->addCredentialCondition( '= $helper->linkToDelete( $' . $this->getSingularName() . ', ' . $this->asPhp( $params ) . ')', $params ) . "\n" ?>
+<?php elseif ( '_edit' == $name ): ?>
+                                <?php echo $this->addCredentialCondition( '= $helper->linkToEdit( $' . $this->getSingularName() . ', ' . $this->asPhp( $params ) . ')', $params ) . "\n" ?>
+<?php else: ?>
+                                %li.sf_admin_action_<?php echo $params['class_suffix'] ?>
+                                    <?php echo $this->addCredentialCondition( $this->getLinkToAction( $name, $params, true ), $params ) . "\n" ?>
+                                    :javascript
+                                        $(function(){$(".sf_admin_action_<?php echo $params['class_suffix'] ?> a").button({icons:{primary:'ui-icon-<?php echo isset( $params['icon_class_suffix'] ) ? $params['icon_class_suffix'] : 'gear' ?>'}})});
+<?php endif ?>
+<?php endforeach ?>
+<?php endif ?>
+
+#dialog-del-obj{ :style => 'display:none', :title => I18n::__( 'admin.label.deleteObjectConfirm' ) }
+    %p
+        %span{ :class => 'ui-icon ui-icon-alert', :style => 'float:left;margin:0 7px 20px 0' }
+        = I18n::__( 'admin.text.deleteObjectConfirm' )
+
+:javascript
+    function checkAll(){var boxes=document.getElementsByTagName('input');for(var index=0;index<boxes.length;index++){box=boxes[index];if(box.type=='checkbox'&&box.className=='sf_admin_batch_checkbox')box.checked=document.getElementById('sf_admin_list_batch_checkbox').checked}return true;}
+<?php if ( $this->configuration->hasNSTree() ): ?>
+    $(document).ready(function(){$('#tree_list').treeTable({treeColumn:1,indent:16,initialState:'expanded'});$('table#tree_list tbody tr').mousedown(function(){$('tr.ui-state-hover').removeClass('ui-state-hover');$(this).addClass('ui-state-hover');});$('table#tree_list tbody tr span').mousedown(function(){$($(this).parents('tr')[0]).trigger('mousedown');});});
+<?php else: ?>
+    $(document).ready(function(){$('.sf_admin_list table tbody tr').hover(function(){$(this).addClass('ui-state-hover');},function(){$(this).removeClass('ui-state-hover');}).click(function(e){$(this).toggleClass('ui-state-highlight');var chx=$(this).find('input:checkbox');if($(this).hasClass('ui-state-highlight'))$(chx).attr('checked','checked');else $(chx).removeAttr('checked');});});
+<?php endif ?>
+
+-#EOF

@@ -1,0 +1,29 @@
+<?php $module = $this->getModuleName() ?>
+#sf_admin_container{ :class => 'ui-widget sf_admin_module_<?php echo $module ?>_list' }
+    = Partial::get( '<?php echo $module ?>/flashes' )
+<?php if ( $this->configuration->hasFilterForm() ): ?>
+    #sf_admin_bar{ :style => 'display:none' }
+<?php endif ?>
+    #sf_admin_content
+<?php if ( $this->configuration->getValue( 'list.batch_actions' ) ): ?>
+        %form{ :action => Url::urlr( '<?php echo $this->getUrlForAction( 'collection' ) ?>', array( 'action' => 'batch' ) ), :method => 'post', :id => '<?php echo $module ?>BatchForm' }
+<?php endif ?>
+            %div{ :class => 'sf_admin_actions_block ui-widget' }
+                = Partial::get( '<?php echo $module ?>/list_actions', array( 'helper' => $helper ) )
+            = Partial::get( '<?php echo $module ?>/list', array( 'pager' => $pager, 'sort' => $sort, 'helper' => $helper, 'hasFilters' => $hasFilters ) )
+            %ul{ :class => 'sf_admin_actions sf_admin_batch_actions' }
+                = Partial::get( '<?php echo $module ?>/list_batch_actions', array( 'helper' => $helper ) )
+
+:javascript
+<?php if ( $this->configuration->getValue( 'list.batch_actions' ) ): ?>
+    $(document).ready(function(){formAjax('actionPartial','<?php echo $module ?>BatchForm')});
+<?php endif ?>
+    $('#breadcrumbs').html(
+<?php if ( $this->configuration->getParentLinks() ): ?>
+<?php foreach( $this->configuration->getParentLinks() as $name => $link ): ?>
+        '&nbsp;/&nbsp;<strong><a onclick="actionAjax($(this),\'actionPartial\');return false;" href="[?php echo Url::url( '<?php echo $link ?>' ) ?]">[?php echo I18n::__( '<?php echo $name ?>' ) ?]</a></strong>'+
+<?php endforeach ?>
+<?php endif ?>
+        '&nbsp;/&nbsp;[?php echo <?php echo $this->getI18NString( 'list.title' ) ?> ?]');
+
+-#EOF

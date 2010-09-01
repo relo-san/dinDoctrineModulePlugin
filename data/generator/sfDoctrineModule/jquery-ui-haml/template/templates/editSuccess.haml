@@ -1,0 +1,24 @@
+<?php $module = $this->getModuleName() ?>
+<?php $sing = $this->getSingularName() ?>
+#sf_admin_container{ :class => 'sf_admin_edit ui-widget ui-widget-content ui-corner-all sf_admin_module_<?php echo $module ?>_form' }
+    %div{ :class => 'fg-toolbar ui-widget-header ui-corner-all' }
+        %hl
+            = <?php echo $this->getI18NString( 'edit.title' ) . "\n" ?>
+    = Partial::get( '<?php echo $module ?>/flashes' )
+    #sf_admin_header
+    #sf_admin_content
+        = Partial::get( '<?php echo $module ?>/form', array( '<?php echo $sing ?>' => $<?php echo $sing ?>, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper ) )
+    #sf_admin_footer
+
+:javascript
+    if(typeof jQuery!='undefined'){$('#breadcrumbs').html(
+<?php if ( $this->configuration->getParentLinks() ): ?>
+<?php foreach( $this->configuration->getParentLinks() as $name => $link ): ?>
+        [?php $listUrl = Url::url( '<?php echo $link ?>' ) ?]
+        '&nbsp;/&nbsp;<strong><a onclick="actionAjax($(this),\'actionPartial\',\'[?php echo $listUrl ?]\');return false;" href="[?php echo $listUrl ?]">[?php echo I18n::__( '<?php echo $name ?>' ) ?]</a></strong>'+
+<?php endforeach ?>
+<?php endif ?>
+        [?php $listUrl = Url::url( $helper->getUrlForAction( 'list' ) ) ?]
+        '&nbsp;/&nbsp;<strong><a onclick="actionAjax($(this),\'actionPartial\',\'[?php echo $listUrl ?]\');return false;" href="[?php echo $listUrl ?]">[?php echo <?php echo $this->getI18NString( 'list.title' ) ?> ?]</a></strong>&nbsp;/&nbsp;[?php echo <?php echo $this->getI18NString( 'edit.title' ) ?> ?]');}
+
+-#EOF

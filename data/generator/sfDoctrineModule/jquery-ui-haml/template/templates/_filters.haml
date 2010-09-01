@@ -1,0 +1,30 @@
+#sf_<?php echo $this->getModuleName() ?>_filter.sf_admin_filter{ :title => I18n::__( 'admin.labels.filter' ) }
+    - if ( $form->hasGlobalErrors() )
+        = $form->renderGlobalErrors()
+
+    %form{ :action => Url::urlr( '<?php echo $this->getUrlForAction( 'collection' ) ?>', array( 'action' => 'filter' ) ), :method => 'post', :id => '<?php echo $this->getModuleName() ?>FilterForm' }
+        = $form->renderHiddenFields()
+        %fieldset
+            - foreach ( $configuration->getFormFilterFields( $form ) as $name => $field )
+                - if ( ( isset( $form[$name] ) && $form[$name]->isHidden() ) || ( !isset( $form[$name] ) && $field->isReal() ) )
+                    - continue
+                - if ( $field->isPartial() )
+                    = Partial::get( '<?php echo $this->getModuleName() ?>/' . $name, array( 'type' => 'filter', 'form' => $form, 'attributes' => $attributes instanceof sfOutputEscaper ? $attributes->getRawValue() : $attributes ) )
+                - elseif ( $field->isComponent() )
+                    = Partial::component( '<?php echo $this->getModuleName() ?>', $name, array( 'type' => 'filter', 'form' => $form, 'attributes' => $attributes instanceof sfOutputEscaper ? $attributes->getRawValue() : $attributes ) )
+                - else
+                    %div{ :class => 'sf-filter-field sf_admin_filter_field_' . $name }
+                        = $form[$name]->renderLabel( $field->getConfig( 'label' ) )
+                        = $form[$name]->renderError()
+                        - UI::renderField( $form[$name], array( 'class' => 'text ui-widget-content ui-corner-all' ) )
+                        - if ( $help = $field->getConfig( 'help' ) || $help = $form[$name]->renderHelp() )
+                            .help
+                                = I18n::__( '<?php echo $this->getI18nCatalogue() ?>.' . $help )
+
+:javascript
+    $(document).ready(function(){formAjax('actionPartial','<?php echo $this->getModuleName() ?>FilterForm')});
+    $('#sf_<?php echo $this->getModuleName() ?>_filter').dialog({autoOpen:true,height:400,width:600,modal:true,buttons:{'[?php echo I18n::__( 'admin.labels.filterSubmit' ) ?]':function(){$('#<?php echo $this->getModuleName() ?>FilterForm').submit();},'[?php echo I18n::__( 'admin.labels.filterCancel' ) ?]':function(){$(this).dialog('destroy');$('#sf_<?php echo $this->getModuleName() ?>_filter').remove();}},close:function(){}});
+    $('#sf_<?php echo $this->getModuleName() ?>_filter').dialog('open');
+    $('div.sf-filter-empty input,div.sf-filter-empty label').removeClass('text ui-widget-content ui-corner-all');
+
+-#EOF

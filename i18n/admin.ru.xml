@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="admin.ru.xml">
+        <header/>
+        <body>
+
+        <!-- Actions -->
+            <trans-unit id="labels.new">
+                <source>labels.new</source>
+                <target>Создать</target>
+            </trans-unit>
+            <trans-unit id="labels.edit">
+                <source>labels.edit</source>
+                <target>Редактировать</target>
+            </trans-unit>
+            <trans-unit id="labels.delete">
+                <source>labels.delete</source>
+                <target>Удалить</target>
+            </trans-unit>
+            <trans-unit id="labels.list">
+                <source>labels.list</source>
+                <target>Список</target>
+            </trans-unit>
+            <trans-unit id="labels.show">
+                <source>labels.show</source>
+                <target>Просмотреть</target>
+            </trans-unit>
+            <trans-unit id="labels.backToList">
+                <source>labels.backToList</source>
+                <target>Вернуться к списку</target>
+            </trans-unit>
+            <trans-unit id="labels.save">
+                <source>labels.save</source>
+                <target>Сохранить</target>
+            </trans-unit>
+            <trans-unit id="labels.saveAndAdd">
+                <source>labels.saveAndAdd</source>
+                <target>Сохранить и добавить</target>
+            </trans-unit>
+            <trans-unit id="labels.cancel">
+                <source>labels.cancel</source>
+                <target>Отмена</target>
+            </trans-unit>
+            <trans-unit id="labels.chooseAction">
+                <source>labels.chooseAction</source>
+                <target>Выберите действие</target>
+            </trans-unit>
+            <trans-unit id="labels.go">
+                <source>labels.go</source>
+                <target>Выполнить</target>
+            </trans-unit>
+            <trans-unit id="label.checked">
+                <source>label.checked</source>
+                <target>Да</target>
+            </trans-unit>
+            <trans-unit id="label.unchecked">
+                <source>label.unchecked</source>
+                <target>Нет</target>
+            </trans-unit>
+
+        <!-- Filters -->
+            <trans-unit id="labels.reset">
+                <source>labels.reset</source>
+                <target>Очистить</target>
+            </trans-unit>
+            <trans-unit id="labels.filter">
+                <source>labels.filter</source>
+                <target>Фильтр</target>
+            </trans-unit>
+            <trans-unit id="labels.filterSubmit">
+                <source>labels.filterSubmit</source>
+                <target>Применить</target>
+            </trans-unit>
+            <trans-unit id="labels.filterCancel">
+                <source>labels.filterCancel</source>
+                <target>Закрыть</target>
+            </trans-unit>
+            <trans-unit id="labels.yesOrNo">
+                <source>labels.yesOrNo</source>
+                <target>Любое</target>
+            </trans-unit>
+            <trans-unit id="labels.yes">
+                <source>labels.yes</source>
+                <target>Да</target>
+            </trans-unit>
+            <trans-unit id="labels.no">
+                <source>labels.no</source>
+                <target>Нет</target>
+            </trans-unit>
+            <trans-unit id="labels.isEmpty">
+                <source>labels.isEmpty</source>
+                <target>Нет значения?</target>
+            </trans-unit>
+
+        <!-- List -->
+            <trans-unit id="labels.noResult">
+                <source>labels.noResult</source>
+                <target>Нет результатов</target>
+            </trans-unit>
+            <trans-unit id="labels.actions">
+                <source>labels.actions</source>
+                <target>Действия</target>
+            </trans-unit>
+            <trans-unit id="labels.asc">
+                <source>labels.asc</source>
+                <target>По возрастанию</target>
+            </trans-unit>
+            <trans-unit id="labels.desc">
+                <source>labels.desc</source>
+                <target>По убыванию</target>
+            </trans-unit>
+            <trans-unit id="buttons.confirmCancel">
+                <source>buttons.confirmCancel</source>
+                <target>Отменить</target>
+            </trans-unit>
+            <trans-unit id="buttons.confirmDelete">
+                <source>buttons.confirmDelete</source>
+                <target>Удалить</target>
+            </trans-unit>
+            <trans-unit id="label.deleteObjectConfirm">
+                <source>label.deleteObjectConfirm</source>
+                <target>Подтверждение операции</target>
+            </trans-unit>
+            <trans-unit id="text.deleteObjectConfirm">
+                <source>text.deleteObjectConfirm</source>
+                <target>Объект будет удален без возможности восстановления.</target>
+            </trans-unit>
+
+        <!-- Pagination -->
+            <trans-unit id="labels.firstPage">
+                <source>labels.firstPage</source>
+                <target>Первая страница</target>
+            </trans-unit>
+            <trans-unit id="labels.prevPage">
+                <source>labels.prevPage</source>
+                <target>Предыдущая страница</target>
+            </trans-unit>
+            <trans-unit id="labels.nextPage">
+                <source>labels.nextPage</source>
+                <target>Следующая страница</target>
+            </trans-unit>
+            <trans-unit id="labels.lastPage">
+                <source>labels.lastPage</source>
+                <target>Последняя страница</target>
+            </trans-unit>
+            <trans-unit id="labels.currentPage">
+                <source>labels.currentPage</source>
+                <target>Страница</target>
+            </trans-unit>
+            <trans-unit id="texts.pages">
+                <source>texts.pages</source>
+                <target><![CDATA[из %1%]]></target>
+            </trans-unit>
+            <trans-unit id="texts.views">
+                <source>texts.views</source>
+                <target><![CDATA[Показано %1% - %2% из %3%]]></target>
+            </trans-unit>
+
+        <!-- Form -->
+            <trans-unit id="labels.tmcActivation">
+                <source>labels.tmcActivation</source>
+                <target>Активировать редактор</target>
+            </trans-unit>
+            <trans-unit id="messages.createSuccess">
+                <source>messages.createSuccess</source>
+                <target>Объект успешно создан.</target>
+            </trans-unit>
+            <trans-unit id="messages.updateSuccess">
+                <source>messages.updateSuccess</source>
+                <target>Объект успешно изменен.</target>
+            </trans-unit>
+            <trans-unit id="messages.createSuccessNext">
+                <source>messages.createSuccessNext</source>
+                <target>Объект успешно создан. Вы можете добавить еще один.</target>
+            </trans-unit>
+            <trans-unit id="messages.updateSuccessNext">
+                <source>messages.updateSuccessNext</source>
+                <target>Объект успешно обновлен. Вы можете добавить еще один.</target>
+            </trans-unit>
+            <trans-unit id="messages.saveError">
+                <source>messages.saveError</source>
+                <target>Объект не сохранен из-за некоторых ошибок.</target>
+            </trans-unit>
+            <trans-unit id="messages.deleteSuccess">
+                <source>messages.deleteSuccess</source>
+                <target>Объект успешно удален.</target>
+            </trans-unit>
+            <trans-unit id="messages.selectItems">
+                <source>messages.selectItems</source>
+                <target>Вы не выбрали ни одного объекта.</target>
+            </trans-unit>
+            <trans-unit id="messages.selectBatchAction">
+                <source>messages.selectBatchAction</source>
+                <target>Вы не выбрали действие над выделенными объектами.</target>
+            </trans-unit>
+            <trans-unit id="messages.itemsNotExist">
+                <source>messages.itemsNotExist</source>
+                <target>При удалении выделенных объектов возникли проблемы: один или несколько объектов больше не существуют.</target>
+            </trans-unit>
+            <trans-unit id="messages.batchDeleteSuccess">
+                <source>messages.batchDeleteSuccess</source>
+                <target>Выделенные объекты успешно удалены.</target>
+            </trans-unit>
+            <trans-unit id="messages.batchDeleteError">
+                <source>messages.batchDeleteError</source>
+                <target>Возникла проблема при удалении выделенных объектов.</target>
+            </trans-unit>
+            <trans-unit id="messages.objectNotUnique">
+                <source>messages.objectNotUnique</source>
+                <target>Нельзя создать новый объект, аналогичный уже существует.</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

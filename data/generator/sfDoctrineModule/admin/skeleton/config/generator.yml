@@ -1,0 +1,28 @@
+# This file is part of the ##PLUGIN_NAME## package.
+# (c) DineCat, 2010 http://dinecat.com/
+#
+# For the full copyright and license information, please view the LICENSE file,
+# that was distributed with this package, or see http://www.dinecat.com/din/license.html
+
+# ##MODULE_NAME## admin generator configuration
+#
+# @package     ##PLUGIN_NAME##.modules.##MODULE_NAME##.config
+# @signed      4
+# @signer      relo_san
+# @author      relo_san [http://relo-san.com/]
+# @since       ##DATE##
+# @version     SVN: $Id: generator.yml 13 2010-02-26 20:31:36Z relo_san $
+
+<?php
+$class = '##UC_MODULE_NAME##ModuleDefinition';
+$file = sfConfig::get( 'sf_lib_dir' ) . '/config/##PLUGIN_NAME##/' . $class .'.class.php';
+$pluginFile = sfConfig::get( 'sf_plugins_dir' ) . '/##PLUGIN_NAME##/modules/##MODULE_NAME##/config/Plugin' . $class . '.class.php';
+require_once $pluginFile;
+if ( is_readable( $file ) ) require_once $file;
+if ( !class_exists( $class ) ) $class = 'Plugin' . $class;
+$mgr = new $class;
+$mgr->configure();
+echo $mgr->getAsYml();
+?>
+
+#EOF

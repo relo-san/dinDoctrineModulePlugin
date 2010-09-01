@@ -1,0 +1,77 @@
+
+# This file is part of the ##PLUGIN_NAME## package.
+# (c) DineCat, 2010 http://dinecat.com/
+#
+# For the full copyright and license information, please view the LICENSE file,
+# that was distributed with this package, or see http://www.dinecat.com/din/license.html
+
+# ##MODULE_NAME## module generator configuration
+#
+# @package     ##PLUGIN_NAME##
+# @subpackage  modules.##MODULE_NAME##.config
+# @author      ##AUTHOR##
+
+plugin:                             '##PLUGIN_NAME##'
+
+generator:
+
+    param:
+
+        model_class:                '##MODEL_CLASS##'
+        singular:                   ##SINGULAR##
+        plural:                     ##PLURAL##
+        route_prefix:               ##ROUTE_PREFIX##
+        with_doctrine_route:        ##WITH_ROUTE##
+        i18n_catalogue:             '##MODULE_NAME##'
+
+        config:
+
+            actions:                null
+
+            fields:
+                title:              { label: 'fieldLabels.title' }
+                description:        { label: 'fieldLabels.description' }
+
+            list:
+                title:              'titles.list'
+                display:            []
+                table_method:       'retrieveWithI18n'
+                pager_class:        'dinDoctrinePager'
+                actions:
+                    _new:
+                        params:     { ajax: 'action' }
+                object_actions:
+                    _edit:
+                        params:     { ajax: 'action' }
+                    _delete:
+                        params:     { ajax: 'post' }
+                sort:
+                    title:          { columns: ['title'] }
+
+            filter:
+                display:            []
+
+            form:
+                display:
+                    fieldsets.base: []
+
+            edit:
+                title:              'titles.edit.%%title%%'
+                actions:
+                    _delete:
+                        params:     { ajax: 'action' }
+                    _save:          null
+                    _list:
+                        params:     { ajax: 'action' }
+
+            new:
+                title:              'titles.new'
+                actions:
+                    _save_and_add:  null
+                    _save:          null
+                    _list:
+                        params:     { ajax: 'action' }
+
+            show:                   null
+
+#EOF
